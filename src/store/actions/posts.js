@@ -1,4 +1,4 @@
-import axios from "axios";
+import * as api from "../../api";
 import {
   CREATE_POST,
   DELETE_POST,
@@ -9,9 +9,7 @@ import {
 
 export const getPosts = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(
-      "https://memories-app-api1.herokuapp.com/posts"
-    );
+    const { data } = await api.fetchPosts;
     dispatch({
       type: FETCH_ALL,
       payload: {
@@ -25,10 +23,7 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
   try {
-    const { data } = await axios.post(
-      "https://memories-app-api1.herokuapp.com/posts",
-      post
-    );
+    const { data } = await api.createPost(post);
     dispatch({ type: CREATE_POST, payload: { post: data } });
   } catch (error) {
     console.log(error.message);
@@ -37,10 +32,7 @@ export const createPost = (post) => async (dispatch) => {
 
 export const updatePost = (id, post) => async (dispatch) => {
   try {
-    const { data } = await axios.patch(
-      `https://memories-app-api1.herokuapp.com/posts/${id}`,
-      post
-    );
+    const { data } = await api.updatePost(id, post);
     dispatch({ type: UPDATE_POST, payload: { post: data } });
   } catch (error) {
     console.log(error.message);
@@ -49,7 +41,7 @@ export const updatePost = (id, post) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    await axios.delete(`https://memories-app-api1.herokuapp.com/posts/${id}`);
+    await api.deletePost(id);
     dispatch({ type: DELETE_POST, payload: { id } });
   } catch (error) {
     console.log(error.message);
@@ -58,9 +50,7 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const likePost = (id) => async (dispatch) => {
   try {
-    const { data: updatedPost } = await axios.patch(
-      `https://memories-app-api1.herokuapp.com/posts/${id}/likePost`
-    );
+    const { data: updatedPost } = await api.likePost(id);
     dispatch({ type: LIKE_POST, payload: { id, post: updatedPost } });
   } catch (error) {
     console.log(error.message);

@@ -1,4 +1,4 @@
-import * as api from "../../api";
+import * as api from "../../api/index";
 import {
   CREATE_POST,
   DELETE_POST,
@@ -9,7 +9,7 @@ import {
 
 export const getPosts = () => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts;
+    const { data } = await api.fetchPosts();
     dispatch({
       type: FETCH_ALL,
       payload: {

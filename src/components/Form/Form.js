@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../store/actions/posts";
@@ -11,6 +19,7 @@ export const Form = ({ currentId, setCurrentId }) => {
     message: "",
     tags: "",
     selectedFile: "",
+    private: false,
   });
   const post = useSelector((state) =>
     currentId ? state.posts.find((post) => post._id === currentId) : null
@@ -43,6 +52,12 @@ export const Form = ({ currentId, setCurrentId }) => {
       tags: "",
       selectedFile: "",
     });
+  };
+
+  const handlePrivacyChange = (e) => {
+    e.target.value === "public"
+      ? setPostData({ ...postData, private: false })
+      : setPostData({ ...postData, private: true });
   };
 
   if (!user?.result?.name) {
@@ -102,6 +117,20 @@ export const Form = ({ currentId, setCurrentId }) => {
             }
           />
         </div>
+        <RadioGroup
+          row
+          aria-label="privacy"
+          name="private"
+          value={postData.private ? "private" : "public"}
+          onChange={handlePrivacyChange}
+        >
+          <FormControlLabel value="public" control={<Radio />} label="Public" />
+          <FormControlLabel
+            value="private"
+            control={<Radio />}
+            label="Private"
+          />
+        </RadioGroup>
         <Button
           className={classes.buttonSubmit}
           variant="contained"

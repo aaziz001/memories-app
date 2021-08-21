@@ -4,6 +4,7 @@ import {
   UPDATE_POST,
   DELETE_POST,
   LIKE_POST,
+  LOGOUT,
 } from "../actionTypes";
 
 const postsReducer = (state = [], action) => {
@@ -22,6 +23,8 @@ const postsReducer = (state = [], action) => {
       return state.map((post) =>
         post._id === action.payload.id ? action.payload.post : post
       );
+    case LOGOUT:
+      return state.filter((post) => !post.private);
     default:
       return state;
   }

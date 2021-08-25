@@ -1,9 +1,8 @@
 //https://memories-app-api1.herokuapp.com/
-
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "http//:localhost:3001",
 });
 
 API.interceptors.request.use((req) => {
@@ -17,6 +16,10 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchPosts = () => API.get("/posts");
+export const fetchPostsBySearch = (searchQuery) =>
+  API.get(
+    `/posts?title=${searchQuery.searchTitle || "none"}&tags=${searchQuery.tags}`
+  );
 export const createPost = (newPost) => API.post("/posts", newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const updatePost = (id, updatedPost) =>

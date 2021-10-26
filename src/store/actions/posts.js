@@ -3,6 +3,7 @@ import {
   CREATE_POST,
   DELETE_POST,
   FETCH_ALL,
+  FETCH_BY_SEARCH,
   LIKE_POST,
   UPDATE_POST,
 } from "../actionTypes";
@@ -13,7 +14,9 @@ export const getPosts = () => async (dispatch) => {
     dispatch({
       type: FETCH_ALL,
       payload: {
-        posts: data,
+        posts: data.data,
+        NumberOfPages: data.numOfPages,
+        currentPage: data.currentPage
       },
     });
   } catch (error) {
@@ -24,7 +27,7 @@ export const getPosts = () => async (dispatch) => {
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostsBySearch(searchQuery);
-    console.log(data);
+    dispatch({ type: FETCH_BY_SEARCH, payload: data });
   } catch (error) {
     console.log(error);
   }

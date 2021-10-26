@@ -40,11 +40,16 @@ const Home = () => {
 
   const handleAddTag = (tag) => setSearchTags([...searchTags, tag]);
   const handleDeleteTag = (tagToDelete) =>
-    searchTags.filter((tag) => tag !== tagToDelete);
+    setSearchTags(searchTags.filter((tag) => tag !== tagToDelete));
 
   const submitSearch = () => {
-    if (searchTitle.trim()) {
+    if (searchTitle.trim() || searchTags) {
       dispatch(getPostsBySearch({ searchTitle, tags: searchTags.join(",") }));
+      history.push(
+        `/posts/search?title=${searchTitle || "none"}&tags=${searchTags.join(
+          ","
+        )}`
+      );
     }
   };
 
@@ -64,10 +69,10 @@ const Home = () => {
           spacing={3}
           className={classes.gridContainer}
         >
-          <Grid item xs={12} sm={6} md={9}>
+          <Grid item xs={12} sm={6} md={8}>
             <Posts setCurrentId={setCurrentId} />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <AppBar
               className={classes.appBarSearch}
               position="static"
@@ -101,10 +106,10 @@ const Home = () => {
               </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
+            <Paper className={classes.pagination} elevation={6}>
+              <Pagination />
+            </Paper>
           </Grid>
-          <Paper className={classes.pagination} elevation={6}>
-            <Pagination />
-          </Paper>
         </Grid>
       </Container>
     </Grow>

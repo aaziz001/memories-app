@@ -1,8 +1,7 @@
-//https://memories-app-api1.herokuapp.com/
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http//:localhost:3001",
+  baseURL: "https://memories-app-api1.herokuapp.com/",
 });
 
 API.interceptors.request.use((req) => {
@@ -11,14 +10,15 @@ API.interceptors.request.use((req) => {
       JSON.parse(localStorage.getItem("profile")).token
     }`;
   }
-  console.log(req);
   return req;
 });
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const fetchPostsBySearch = (searchQuery) =>
   API.get(
-    `/posts?title=${searchQuery.searchTitle || "none"}&tags=${searchQuery.tags}`
+    `/posts/search?title=${searchQuery.searchTitle || "none"}&tags=${
+      searchQuery.tags
+    }`
   );
 export const createPost = (newPost) => API.post("/posts", newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);

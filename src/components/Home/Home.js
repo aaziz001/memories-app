@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { getPosts, getPostsBySearch } from "../../store/actions/posts";
-import Pagination from "../Pagination";
+import Pagination from "../Pagination.jsx";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import useStyles from "./style";
@@ -33,10 +33,6 @@ const Home = () => {
 
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
 
   const handleAddTag = (tag) => setSearchTags([...searchTags, tag]);
   const handleDeleteTag = (tagToDelete) =>
@@ -107,7 +103,7 @@ const Home = () => {
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper className={classes.pagination} elevation={6}>
-              <Pagination />
+              <Pagination page={ page}/>
             </Paper>
           </Grid>
         </Grid>
